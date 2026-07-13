@@ -1,0 +1,15 @@
+# Extra dependencies for the ONE-TIME corpus ingest (scripts/ingest_corpus.py).
+# These are NOT needed by the deployed backend — production embeds only the
+# per-request query via the HF Inference API (see app/rag/embedder.py).
+#
+# Install alongside the base backend deps when you need to run the ingest:
+#   pip install -r backend/requirements.txt -r backend/requirements-ingest.txt
+
+datasets==2.21.0
+sentence-transformers==2.7.0
+
+# sentence-transformers pulls in a newer setuptools that drops pkg_resources,
+# which textstat==0.7.3 still imports. Pin setuptools so both work in the same
+# venv. (Not an issue in the deployed backend, which doesn't install this file.)
+setuptools<81
+

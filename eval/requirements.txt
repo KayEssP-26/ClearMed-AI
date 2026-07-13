@@ -1,0 +1,11 @@
+# Dependencies for the evaluation suite (eval/evaluate.py).
+# Run against a running backend:  python eval/evaluate.py
+#
+#   pip install -r eval/requirements.txt
+#
+# (bert-score pulls in torch, so this is a heavy install — kept separate from
+# the deployed backend, which does not need it.)
+
+requests==2.32.3
+rouge-score==0.1.2
+bert-score==0.3.13

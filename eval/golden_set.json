@@ -1,0 +1,252 @@
+[
+  {
+    "id": 1,
+    "complex": "Hypertension is a chronic condition characterized by persistently elevated arterial blood pressure exceeding 140/90 mmHg, increasing risk of cardiovascular morbidity and mortality.",
+    "reference_simple": "High blood pressure is when the force of blood against your artery walls stays too high for too long. A reading above 140/90 is considered high. It raises the risk of heart disease and stroke."
+  },
+  {
+    "id": 2,
+    "complex": "The patient was diagnosed with type 2 diabetes mellitus with peripheral neuropathy and prescribed metformin 500mg twice daily with meals.",
+    "reference_simple": "The patient has type 2 diabetes and nerve damage in their hands and feet. They were prescribed metformin, a diabetes medication, 500mg to be taken twice a day with food."
+  },
+  {
+    "id": 3,
+    "complex": "Post-operative assessment reveals satisfactory wound healing with no signs of dehiscence or surgical site infection. Patient is advised to continue prophylactic antibiotics for 5 days.",
+    "reference_simple": "After surgery, the wound is healing well with no signs of reopening or infection. The patient should continue taking preventive antibiotics for 5 days."
+  },
+  {
+    "id": 4,
+    "complex": "The patient presented to the emergency department with acute myocardial infarction and underwent percutaneous coronary intervention with stent placement in the left anterior descending artery.",
+    "reference_simple": "The patient came to the emergency room having a heart attack. Doctors opened a blocked artery in the heart and placed a small mesh tube, called a stent, to keep it open."
+  },
+  {
+    "id": 5,
+    "complex": "Pulmonary function tests are consistent with chronic obstructive pulmonary disease, demonstrating a reduced FEV1/FVC ratio indicative of airflow obstruction.",
+    "reference_simple": "Breathing tests show the patient has COPD, a long-term lung disease. The tests show that air does not flow out of the lungs as easily as it should."
+  },
+  {
+    "id": 6,
+    "complex": "Laboratory findings reveal elevated serum creatinine and reduced glomerular filtration rate, suggestive of impaired renal function requiring nephrology referral.",
+    "reference_simple": "Blood tests show the kidneys are not filtering waste as well as they should. The patient will be referred to a kidney specialist for further care."
+  },
+  {
+    "id": 7,
+    "complex": "The biopsy confirmed a malignant neoplasm of the colon with lymphovascular invasion; adjuvant chemotherapy is recommended following surgical resection.",
+    "reference_simple": "A tissue sample confirmed cancer in the colon that has started to spread. After surgery to remove it, the patient should have chemotherapy to help stop it from coming back."
+  },
+  {
+    "id": 8,
+    "complex": "Magnetic resonance imaging of the lumbar spine demonstrates a herniated intervertebral disc at L4-L5 with compression of the adjacent nerve root.",
+    "reference_simple": "An MRI scan of the lower back shows a slipped disc between two bones of the spine. It is pressing on a nearby nerve, which can cause pain."
+  },
+  {
+    "id": 9,
+    "complex": "The patient exhibits symptoms of hyperthyroidism secondary to Graves disease, including tachycardia, weight loss, and heat intolerance, and will commence antithyroid therapy.",
+    "reference_simple": "The patient has an overactive thyroid caused by a condition called Graves disease. This makes the heart beat fast, causes weight loss, and makes them feel too hot. They will start medicine to calm the thyroid."
+  },
+  {
+    "id": 10,
+    "complex": "Echocardiography revealed a reduced left ventricular ejection fraction of 35%, consistent with systolic heart failure; the patient was initiated on an ACE inhibitor and beta-blocker.",
+    "reference_simple": "A heart ultrasound showed the heart is pumping out only 35% of its blood with each beat, which is low. This is a type of heart failure. The patient was started on two medicines to help the heart work better."
+  },
+  {
+    "id": 11,
+    "complex": "The dermatological examination is consistent with psoriasis vulgaris, presenting as well-demarcated erythematous plaques with silvery scale over the extensor surfaces.",
+    "reference_simple": "The skin exam shows psoriasis, a long-term skin condition. It causes red, raised patches covered with silvery flakes, often on the elbows and knees."
+  },
+  {
+    "id": 12,
+    "complex": "Cerebrospinal fluid analysis indicates bacterial meningitis; empiric intravenous antibiotic therapy should be administered without delay.",
+    "reference_simple": "Tests on the fluid around the brain and spine show a serious infection called bacterial meningitis. The patient needs antibiotics given through a vein right away."
+  },
+  {
+    "id": 13,
+    "complex": "The patient sustained a comminuted fracture of the distal radius requiring open reduction and internal fixation with a volar locking plate.",
+    "reference_simple": "The patient broke their wrist bone into several pieces. Surgeons had to put the pieces back in place and hold them together with a metal plate and screws."
+  },
+  {
+    "id": 14,
+    "complex": "Upper endoscopy revealed a gastric ulcer with associated Helicobacter pylori infection; triple therapy with a proton pump inhibitor and two antibiotics was initiated.",
+    "reference_simple": "A camera test of the stomach found an ulcer caused by a germ called H. pylori. The patient was started on three medicines: one to lower stomach acid and two antibiotics to clear the germ."
+  },
+  {
+    "id": 15,
+    "complex": "The neonate presented with hyperbilirubinemia requiring phototherapy to reduce the risk of kernicterus.",
+    "reference_simple": "The newborn baby had too much of a yellow substance called bilirubin in the blood, causing jaundice. The baby was treated with special lights to lower it and prevent brain damage."
+  },
+  {
+    "id": 16,
+    "complex": "Coronary angiography demonstrated significant stenosis of the right coronary artery, and the patient was scheduled for coronary artery bypass grafting.",
+    "reference_simple": "A special X-ray of the heart's blood vessels showed a major blockage in one artery. The patient is scheduled for bypass surgery to route blood around the blockage."
+  },
+  {
+    "id": 17,
+    "complex": "The patient was diagnosed with rheumatoid arthritis and started on a disease-modifying antirheumatic drug to slow joint destruction.",
+    "reference_simple": "The patient has rheumatoid arthritis, a condition where the immune system attacks the joints. They were started on a medicine that slows down damage to the joints."
+  },
+  {
+    "id": 18,
+    "complex": "Computed tomography of the abdomen revealed acute appendicitis with periappendiceal fluid, necessitating urgent laparoscopic appendectomy.",
+    "reference_simple": "A CT scan of the belly showed the appendix was inflamed with fluid around it. The patient needs urgent keyhole surgery to remove the appendix."
+  },
+  {
+    "id": 19,
+    "complex": "The patient's hemoglobin A1c of 9.2% indicates poorly controlled diabetes, and insulin therapy will be intensified.",
+    "reference_simple": "A blood test shows the patient's average blood sugar has been too high over the past few months. Their diabetes is not well controlled, so their insulin treatment will be increased."
+  },
+  {
+    "id": 20,
+    "complex": "Spirometry confirmed a diagnosis of asthma with significant reversibility following bronchodilator administration.",
+    "reference_simple": "A breathing test confirmed the patient has asthma. Their breathing got much better after using an inhaler that opens the airways."
+  },
+  {
+    "id": 21,
+    "complex": "The patient presented with an acute ischemic stroke and received intravenous thrombolysis within the therapeutic window.",
+    "reference_simple": "The patient had a stroke caused by a blood clot blocking blood flow to the brain. They were given a clot-busting medicine through a vein in time to help."
+  },
+  {
+    "id": 22,
+    "complex": "Histopathology of the breast lesion confirmed invasive ductal carcinoma, estrogen receptor positive, and the patient will undergo lumpectomy followed by radiotherapy.",
+    "reference_simple": "Tests on the breast lump confirmed a type of breast cancer that grows in response to the hormone estrogen. The patient will have surgery to remove the lump, followed by radiation treatment."
+  },
+  {
+    "id": 23,
+    "complex": "The patient exhibits signs of dehydration secondary to acute gastroenteritis and requires intravenous fluid resuscitation.",
+    "reference_simple": "The patient is dehydrated because of a stomach bug causing vomiting and diarrhea. They need fluids given through a vein to replace what they have lost."
+  },
+  {
+    "id": 24,
+    "complex": "Bone densitometry revealed osteoporosis with a T-score of -2.8, and bisphosphonate therapy was recommended to reduce fracture risk.",
+    "reference_simple": "A bone scan showed the patient has osteoporosis, meaning their bones are weak and thin. They were advised to take a medicine that strengthens bones and lowers the chance of breaks."
+  },
+  {
+    "id": 25,
+    "complex": "The patient was found to have atrial fibrillation with rapid ventricular response and was started on anticoagulation to prevent thromboembolic events.",
+    "reference_simple": "The patient has an irregular, fast heartbeat called atrial fibrillation. They were started on a blood thinner to prevent clots that could cause a stroke."
+  },
+  {
+    "id": 26,
+    "complex": "Ophthalmologic examination revealed proliferative diabetic retinopathy requiring panretinal photocoagulation to preserve vision.",
+    "reference_simple": "An eye exam showed diabetes has damaged the blood vessels in the back of the eye. The patient needs laser treatment to protect their eyesight."
+  },
+  {
+    "id": 27,
+    "complex": "The patient presented with cholelithiasis and recurrent biliary colic; elective laparoscopic cholecystectomy was advised.",
+    "reference_simple": "The patient has gallstones that keep causing bouts of pain. Doctors advised planned keyhole surgery to remove the gallbladder."
+  },
+  {
+    "id": 28,
+    "complex": "Serologic testing confirmed acute hepatitis B infection, and the patient was counseled regarding transmission and monitoring of liver function.",
+    "reference_simple": "Blood tests confirmed the patient recently caught hepatitis B, a virus that affects the liver. They were told how it spreads and that their liver will be checked regularly."
+  },
+  {
+    "id": 29,
+    "complex": "The patient was diagnosed with major depressive disorder and initiated on a selective serotonin reuptake inhibitor with scheduled follow-up.",
+    "reference_simple": "The patient was diagnosed with depression and started on an antidepressant medicine. A follow-up visit was scheduled to see how they are doing."
+  },
+  {
+    "id": 30,
+    "complex": "Renal ultrasound identified hydronephrosis secondary to an obstructing ureteral calculus, and urologic intervention is planned.",
+    "reference_simple": "A kidney ultrasound found that a stone is blocking the tube from the kidney, causing urine to back up and swell the kidney. A urine-system specialist will treat it."
+  },
+  {
+    "id": 31,
+    "complex": "The patient developed community-acquired pneumonia with a consolidation in the right lower lobe on chest radiograph and was started on empiric antibiotics.",
+    "reference_simple": "A chest X-ray showed the patient has pneumonia, a lung infection, in the lower part of the right lung. They were started on antibiotics."
+  },
+  {
+    "id": 32,
+    "complex": "The patient's lipid panel revealed hypercholesterolemia with elevated low-density lipoprotein, warranting initiation of statin therapy.",
+    "reference_simple": "A blood test showed the patient has high cholesterol, including high levels of the 'bad' type. They should start a statin, a medicine that lowers cholesterol."
+  },
+  {
+    "id": 33,
+    "complex": "Colonoscopy revealed multiple adenomatous polyps, which were removed via polypectomy and sent for histopathologic evaluation.",
+    "reference_simple": "During a colonoscopy, doctors found several growths in the colon. They removed them and sent them to a lab to check whether they were harmful."
+  },
+  {
+    "id": 34,
+    "complex": "The patient sustained a traumatic brain injury with a subdural hematoma requiring emergent surgical evacuation.",
+    "reference_simple": "The patient had a serious head injury causing bleeding between the skull and the brain. They needed emergency surgery to remove the blood and relieve pressure."
+  },
+  {
+    "id": 35,
+    "complex": "The patient was diagnosed with hypothyroidism and started on levothyroxine with periodic monitoring of thyroid-stimulating hormone.",
+    "reference_simple": "The patient has an underactive thyroid. They were started on a thyroid hormone pill, and their thyroid levels will be checked from time to time."
+  },
+  {
+    "id": 36,
+    "complex": "Arthrocentesis of the knee yielded fluid consistent with gout, revealing monosodium urate crystals under polarized microscopy.",
+    "reference_simple": "Doctors drew fluid from the swollen knee and found it was caused by gout. Under a microscope, they saw the crystals that cause this painful joint condition."
+  },
+  {
+    "id": 37,
+    "complex": "The patient presented with anaphylaxis following exposure to a known allergen and was treated with intramuscular epinephrine.",
+    "reference_simple": "The patient had a severe, life-threatening allergic reaction after contact with something they are allergic to. They were treated with an epinephrine injection into the muscle."
+  },
+  {
+    "id": 38,
+    "complex": "Fundoscopic examination revealed papilledema, raising concern for elevated intracranial pressure requiring further neuroimaging.",
+    "reference_simple": "An eye exam showed swelling at the back of the eye, which can be a sign of increased pressure inside the skull. More brain scans are needed to find the cause."
+  },
+  {
+    "id": 39,
+    "complex": "The patient was diagnosed with deep vein thrombosis of the left lower extremity and commenced on therapeutic anticoagulation.",
+    "reference_simple": "The patient has a blood clot in a deep vein of the left leg. They were started on blood-thinning medicine to treat it and prevent it from getting worse."
+  },
+  {
+    "id": 40,
+    "complex": "The patient's electrocardiogram demonstrated ST-segment elevation, prompting activation of the cardiac catheterization laboratory.",
+    "reference_simple": "A heart tracing showed a pattern that means a heart attack is happening. The team was called to quickly open the blocked artery in the heart."
+  },
+  {
+    "id": 41,
+    "complex": "The patient presented with nephrotic syndrome characterized by proteinuria, hypoalbuminemia, and peripheral edema.",
+    "reference_simple": "The patient has a kidney problem that lets too much protein leak into the urine. This lowers protein in the blood and causes swelling in the body."
+  },
+  {
+    "id": 42,
+    "complex": "The patient was diagnosed with benign prostatic hyperplasia and started on an alpha-blocker to relieve urinary obstruction.",
+    "reference_simple": "The patient has an enlarged prostate, which is not cancer but blocks the flow of urine. They were started on a medicine that relaxes the area to make urinating easier."
+  },
+  {
+    "id": 43,
+    "complex": "Skin biopsy confirmed malignant melanoma with a Breslow thickness of 1.2mm, and wide local excision was recommended.",
+    "reference_simple": "A skin sample confirmed melanoma, a serious skin cancer, that has grown a small distance into the skin. Doctors recommended surgery to remove it along with a margin of healthy skin."
+  },
+  {
+    "id": 44,
+    "complex": "The patient experienced a seizure and electroencephalography revealed epileptiform discharges; antiepileptic medication was initiated.",
+    "reference_simple": "The patient had a seizure, and a brain test showed unusual electrical activity linked to epilepsy. They were started on medicine to prevent future seizures."
+  },
+  {
+    "id": 45,
+    "complex": "The patient was found to have iron deficiency anemia and was prescribed oral iron supplementation with dietary counseling.",
+    "reference_simple": "Tests showed the patient has anemia caused by low iron. They were given iron pills to take by mouth and advice on eating iron-rich foods."
+  },
+  {
+    "id": 46,
+    "complex": "Transvaginal ultrasound confirmed an ectopic pregnancy in the right fallopian tube, and methotrexate therapy was administered.",
+    "reference_simple": "An ultrasound confirmed the pregnancy was growing in the fallopian tube instead of the womb, which is dangerous. The patient was given a medicine called methotrexate to end it safely."
+  },
+  {
+    "id": 47,
+    "complex": "The patient presented with cellulitis of the lower limb exhibiting erythema, warmth, and tenderness, and was started on oral antibiotics.",
+    "reference_simple": "The patient has a skin infection in the leg that is red, warm, and sore to touch. They were started on antibiotic pills to clear it."
+  },
+  {
+    "id": 48,
+    "complex": "The patient was diagnosed with gastroesophageal reflux disease and advised on lifestyle modification alongside a proton pump inhibitor.",
+    "reference_simple": "The patient has acid reflux, where stomach acid flows back up and causes heartburn. They were given lifestyle tips and a medicine that reduces stomach acid."
+  },
+  {
+    "id": 49,
+    "complex": "Audiometry confirmed sensorineural hearing loss, and the patient was referred for hearing aid evaluation.",
+    "reference_simple": "A hearing test confirmed permanent hearing loss caused by damage to the inner ear or nerve. The patient was referred to be assessed for hearing aids."
+  },
+  {
+    "id": 50,
+    "complex": "The patient exhibited signs of sepsis with hypotension and elevated lactate, requiring aggressive fluid resuscitation and broad-spectrum antibiotics.",
+    "reference_simple": "The patient showed signs of sepsis, a dangerous body-wide response to infection, with low blood pressure. They needed large amounts of fluids and strong antibiotics quickly."
+  }
+]

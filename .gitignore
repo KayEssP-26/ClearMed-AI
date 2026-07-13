@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+*.egg
+
+# Env
+.env
+*.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Note: eval/results.json is intentionally committed (see README/eval) so the
+# repo carries its evaluation scores.
+
+# Pinecone / model cache
+*.pkl
+*.bin
+venv
+
+.agents
+.codex
+clearmed-local-day1.md
+
+*.log
+eval/backend-error.log
+eval/backend.log
+
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+
