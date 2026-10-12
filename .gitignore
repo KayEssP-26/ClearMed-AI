@@ -8,8 +8,15 @@ venv/
 .venv/
 *.egg
 
+# JavaScript
+node_modules/
+.vite/
+coverage/
+
 # Env
 .env
+.env.*
+!.env.example
 *.env
 
 # IDE
@@ -23,14 +30,18 @@ Thumbs.db
 # Note: eval/results.json is intentionally committed (see README/eval) so the
 # repo carries its evaluation scores.
 
+# Local-only notes and handoff files
+HANDOFF.md
+progress.md
+
 # Pinecone / model cache
 *.pkl
 *.bin
-venv
 
 .agents
 .codex
 clearmed-local-day1.md
+test-img1.png
 
 *.log
 eval/backend-error.log

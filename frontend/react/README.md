@@ -1,16 +1,19 @@
 # ClearMed React frontend
 
-This folder is the production frontend for ClearMed AI. It uses Vite for development and builds, and Motion is available for purposeful interface animation.
+This is the supported web frontend for ClearMed AI. It uses React and Vite; the FastAPI backend must be running separately for simplification requests.
 
 ## Run locally
 
+From the repository root:
+
 ```bash
-cd frontend/react
-npm install
-npm run dev -- --host 0.0.0.0
+npm --prefix frontend/react install
+npm --prefix frontend/react run dev -- --host 0.0.0.0
 ```
 
-Vite serves the app at `http://localhost:5173`. Start the FastAPI backend separately on port 8000, or set `VITE_API_URL` in a local `.env` file.
+Vite serves the app at `http://localhost:5173`. The API client defaults to `http://localhost:8000`; override this by setting `VITE_API_URL` in `frontend/react/.env.local` before starting Vite.
+
+To create a production build, run `npm --prefix frontend/react run build` from the repository root.
 
 ## Structure
 

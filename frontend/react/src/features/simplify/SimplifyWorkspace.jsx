@@ -7,6 +7,43 @@ import "./results.css";
 
 const ACCEPTED_FILE_TYPES = ["application/pdf", "image/jpeg", "image/png"];
 const ACCEPTED_FILE_EXTENSIONS = ".pdf,.jpg,.jpeg,.png";
+const EXPLANATION_HEADINGS = {
+  SUMMARY: "Summary",
+  "WHAT IT MEANS": "What it means",
+  "WHAT TO DO": "What to do",
+  "TERMS EXPLAINED": "Terms explained",
+};
+
+function parseExplanation(text) {
+  const normalized = text.replace(/\*\*/g, "").trim();
+  const headingPattern = /^\s*(SUMMARY|WHAT IT MEANS|WHAT TO DO|TERMS EXPLAINED)\s*:\s*/gim;
+  const headings = [...normalized.matchAll(headingPattern)];
+
+  if (!headings.length) {
+    return [{ key: "explanation", title: "Explanation", content: normalized }];
+  }
+
+  return headings.map((heading, index) => ({
+    key: heading[1].toLowerCase().replaceAll(" ", "-"),
+    title: EXPLANATION_HEADINGS[heading[1].toUpperCase()],
+    content: normalized.slice(
+      heading.index + heading[0].length,
+      headings[index + 1]?.index ?? normalized.length,
+    ).trim(),
+  }));
+}
+
+function ExplanationSection({ section, index }) {
+  const lines = section.content.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  const isList = lines.length > 0 && lines.every((line) => /^(?:[-*•]|\d+[.)])\s+/.test(line));
+
+  return <section className={`explanation-section explanation-${section.key}`} aria-labelledby={`explanation-${section.key}`}>
+    <div className="explanation-section-heading"><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><h3 id={`explanation-${section.key}`}>{section.title}</h3></div>
+    {isList
+      ? <ul>{lines.map((line, lineIndex) => <li key={`${lineIndex}-${line}`}>{line.replace(/^(?:[-*•]|\d+[.)])\s+/, "")}</li>)}</ul>
+      : <p>{section.content}</p>}
+  </section>;
+}
 
 function ReadabilityCard({ label, value, accent }) {
   return <div className="readability-card"><span>{label}</span><strong className={accent ? "readability-improved" : ""}>{Number.isFinite(value) ? value.toFixed(1) : "—"}</strong><small>Flesch reading ease</small></div>;
@@ -25,6 +62,7 @@ function SuggestedQuestions({ simplifiedText }) {
 
 function Results({ result }) {
   const gain = result.readability_after - result.readability_before;
+  const explanationSections = parseExplanation(result.simplified);
   const [copied, setCopied] = useState(false);
   const copyExplanation = async () => {
     try {
@@ -37,14 +75,13 @@ function Results({ result }) {
   };
   return <motion.section aria-live="polite" className="results-card" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .35, ease: "easeOut" }}>
     <div className="results-heading"><div><p className="eyebrow">Your explanation</p><h2>Here’s what it means</h2></div><div className="result-actions"><span className="complete-badge">Complete</span><button className="copy-button" type="button" onClick={copyExplanation}>{copied ? "Copied" : "Copy explanation"}</button></div></div>
-    <p className="simplified-copy">{result.simplified}</p>
+    <div className="explanation-sections">{explanationSections.map((section, index) => <ExplanationSection key={section.key} section={section} index={index} />)}</div>
     {(Number.isFinite(result.readability_before) || Number.isFinite(result.readability_after)) && <div className="readability-grid">
       <ReadabilityCard label="Original" value={result.readability_before} />
       <ReadabilityCard label="Simplified" value={result.readability_after} accent />
       {Number.isFinite(gain) && <div className="gain-note"><span aria-hidden="true">↗</span><strong>{gain >= 0 ? "+" : ""}{gain.toFixed(1)}</strong><small>readability change</small></div>}
     </div>}
-    {result.sources?.length > 0 && <details className="sources"><summary>View source context used</summary><ol>{result.sources.map((source, index) => <li key={`${index}-${source}`}>{source}</li>)}</ol></details>}
-    <SuggestedQuestions simplifiedText={result.simplified} />
+    <SuggestedQuestions simplifiedText={explanationSections.find((section) => section.key === "summary")?.content || result.simplified} />
   </motion.section>;
 }
 

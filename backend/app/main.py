@@ -1,10 +1,10 @@
 import time
-import asyncio
 from contextlib import asynccontextmanager
 
 import textstat
 from fastapi import FastAPI, BackgroundTasks, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.concurrency import run_in_threadpool
 
 from app.models import (
     SimplifyRequest,
@@ -75,7 +75,10 @@ def _run_pipeline(
 @app.post("/simplify", response_model=SimplifyResponse)
 async def simplify(request: SimplifyRequest, background_tasks: BackgroundTasks):
     try:
-        simplified, sources, rb, ra, latency = _run_pipeline(request.text)
+        simplified, sources, rb, ra, latency = await run_in_threadpool(
+            _run_pipeline,
+            request.text,
+        )
     except RuntimeError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
 
@@ -110,10 +113,29 @@ async def simplify_report(
     file: UploadFile,
 ):
     file_bytes = await file.read()
-    ocr_text = extract_text_from_file(file_bytes, file.filename or "upload")
+    try:
+        ocr_text = await run_in_threadpool(
+            extract_text_from_file,
+            file_bytes,
+            file.filename or "upload",
+        )
+    except Exception as exc:
+        raise HTTPException(
+            status_code=422,
+            detail="ClearMed AI could not read this report. Try a clearer PDF, JPG, or PNG.",
+        ) from exc
+
+    if not ocr_text.strip():
+        raise HTTPException(
+            status_code=422,
+            detail="No readable text was found in this report. Try a clearer image or PDF.",
+        )
 
     try:
-        simplified, sources, rb, ra, latency = _run_pipeline(ocr_text)
+        simplified, sources, rb, ra, latency = await run_in_threadpool(
+            _run_pipeline,
+            ocr_text,
+        )
     except RuntimeError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
 

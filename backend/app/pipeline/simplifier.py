@@ -1,9 +1,9 @@
 from pathlib import Path
-from huggingface_hub import InferenceClient
-from app.config import settings
+
+from app.gemini import get_gemini_client
 from app.rag.retriever import retrieve_chunks
 
-_MODEL = "meta-llama/Llama-3.1-8B-Instruct"
+_MODEL = "gemini-3.5-flash-lite"
 _PROMPT_PATH = Path(__file__).parent.parent / "prompts" / "simplify_v2.txt"
 
 
@@ -15,21 +15,22 @@ def _load_prompt() -> str:
 
 def _provider_unavailable_message(error: Exception) -> str:
     error_text = str(error).lower()
-    if "payment required" in error_text or "no remaining credits" in error_text:
+    if "429" in error_text or "quota" in error_text or "rate limit" in error_text:
         return (
-            "ClearMed AI is temporarily unavailable because the Hugging Face Inference "
-            "Provider is out of credits or not accepting requests. Please verify "
-            "the HF token and billing status, then try again."
+            "ClearMed AI is temporarily unavailable because the Gemini API quota or rate "
+            "limit was exceeded. Please verify your API configuration and try again."
         )
+    if "missing gemini api key" in error_text:
+        return "Set GEMINI_API_KEY or GOOGLE_API_KEY to enable Gemini simplification."
     return (
-        "ClearMed AI is temporarily unavailable because the model service is not "
-        f"responding right now: {error}"
+        "ClearMed AI is temporarily unavailable because the Gemini API request failed. "
+        "Please verify the API key and model configuration, then try again."
     )
 
 
 def simplify_text(text: str) -> tuple[str, list[str]]:
     """
-    Simplify clinical *text* using a RAG-augmented HF Inference API call.
+    Simplify clinical *text* using a RAG-augmented Gemini API call.
 
     Returns:
         (simplified_text, source_chunks)
@@ -46,18 +47,18 @@ def simplify_text(text: str) -> tuple[str, list[str]]:
             input_text=text,
         )
 
-        client = InferenceClient(token=settings.hf_token)
-        # The HF serverless providers serve this instruct model as a conversational
-        # ("chat") model, so we use chat_completion rather than raw text_generation.
-        # The whole RAG prompt is passed as a single user message.
-        completion = client.chat_completion(
-            messages=[{"role": "user", "content": prompt}],
+        response = get_gemini_client().interactions.create(
             model=_MODEL,
-            max_tokens=512,
-            temperature=0.3,
+            input=prompt,
+            store=False,
+            generation_config={
+                "temperature": 0.3,
+                "max_output_tokens": 512,
+            },
         )
-
-        simplified = completion.choices[0].message.content.strip()
+        simplified = (response.output_text or "").strip()
+        if not simplified:
+            raise ValueError("Gemini returned an empty response.")
         return simplified, source_chunks
     except Exception as exc:
         raise RuntimeError(_provider_unavailable_message(exc)) from exc

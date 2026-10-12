@@ -10,14 +10,22 @@ _ENV_FILE = Path(__file__).resolve().parents[2] / ".env"
 
 
 class Settings(BaseSettings):
-    hf_token: str
-    pinecone_api_key: str
+    gemini_api_key: str | None = None
+    google_api_key: str | None = None
+    pinecone_api_key: str | None = None
     pinecone_index_name: str = "clearmed"
-    supabase_url: str
-    supabase_key: str
+    supabase_url: str | None = None
+    supabase_key: str | None = None
     backend_url: str = "http://localhost:8000"
 
-    model_config = SettingsConfigDict(env_file=str(_ENV_FILE))
+    model_config = SettingsConfigDict(env_file=str(_ENV_FILE), extra="ignore")
+
+    @property
+    def gemini_key(self) -> str:
+        key = self.gemini_api_key or self.google_api_key
+        if not key:
+            raise ValueError("Missing Gemini API key. Set GEMINI_API_KEY or GOOGLE_API_KEY in the environment.")
+        return key
 
 
 settings = Settings()

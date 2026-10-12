@@ -32,7 +32,7 @@ scripts/
   ingest_corpus.py
 eval/
   evaluate.py
-golden_set.json
+  golden_set.json
   results.json
 ```
 
@@ -41,63 +41,66 @@ golden_set.json
 - Backend: FastAPI service exposing `/health`, `/simplify`, and `/simplify-report` endpoints.
 - Frontend: React + Vite app in `frontend/react` for report upload, text simplification, and dashboard viewing.
 - RAG layer: retrieves relevant chunks and passes them into the model prompt.
+
 ## Prerequisites
 
 - Python 3.10+
-- A Hugging Face token
-- Optional: Pinecone and Supabase credentials if you want to use the full retrieval stack
+- Node.js and npm
+- A Google Gemini API key
+- A Pinecone API key and index name; retrieval is used for every simplification request.
+- Tesseract OCR installed and available on `PATH` for image uploads and scanned PDFs. On Windows, set the `TESSERACT_CMD` environment variable if Tesseract is installed outside the standard locations.
+- Optional: Supabase URL and key for request logging. Logging failures do not prevent simplification.
 
 ## Environment setup
 
-1. Copy [.env.example](.env.example) to `.env`.
-2. Fill in the required values:
-   - `HF_TOKEN`
-   - `PINECONE_API_KEY`
-   - `PINECONE_INDEX_NAME`
-   - `SUPABASE_URL`
-   - `SUPABASE_KEY`
-   - `BACKEND_URL` (default: `http://localhost:8000`)
+1. Copy [.env.example](.env.example) to `.env` in the repository root.
+2. Set `GEMINI_API_KEY`, `PINECONE_API_KEY`, and `PINECONE_INDEX_NAME`.
+3. Set `SUPABASE_URL` and `SUPABASE_KEY` only if request logging is desired.
+
+The React app defaults to `http://localhost:8000` for its API. To use another backend URL, set `VITE_API_URL` in `frontend/react/.env.local`.
 
 ## Local development
 
-### 1) Install dependencies
+### Install dependencies
 
-From the repository root:
+Run these commands from the repository root. Activate the virtual environment in each new terminal before starting the backend.
 
-```bash
+```powershell
 python -m venv .venv
-source .venv/bin/activate  # On Windows use .venv\Scripts\activate
-pip install -r backend/requirements.txt
-cd frontend/react
-npm install
+\.venv\Scripts\Activate.ps1
+python -m pip install -r backend/requirements.txt
+npm --prefix frontend/react install
 ```
 
-### 2) Start the backend
+On macOS or Linux, activate it with `source .venv/bin/activate` instead.
 
-```bash
-cd backend
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+### Start the backend
+
+```powershell
+Set-Location backend
+python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### 3) Start the frontend
+### Start the frontend
 
-In a second terminal:
+In a second terminal, run from the repository root:
 
-```bash
-cd frontend/react
-npm run dev -- --host 0.0.0.0
+```powershell
+npm --prefix frontend/react run dev -- --host 0.0.0.0
 ```
 
-The app should open in your browser at `http://localhost:5173`.
+Open `http://localhost:5173`. The backend health endpoint is `http://localhost:8000/health`.
 
 ## Optional data ingestion
 
-If you want to ingest a corpus into the retrieval system, install the extra ingest dependencies and run:
+The one-time corpus loader downloads PubMedQA using the Hugging Face `datasets` package; model generation and embeddings use Gemini, not Hugging Face Inference APIs. Ingestion makes Gemini embedding requests and writes to the `gemini-embedding-001-v1` Pinecone namespace. To rebuild that corpus, install both dependency sets and run:
 
 ```bash
-pip install -r backend/requirements-ingest.txt
+pip install -r backend/requirements.txt -r backend/requirements-ingest.txt
 python scripts/ingest_corpus.py 500
 ```
+
+The count argument is the number of abstracts to ingest. Gemini quota limits may require waiting between embedding batches.
 
 ## Evaluation
 
