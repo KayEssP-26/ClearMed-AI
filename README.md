@@ -1,265 +1,118 @@
-# 🩺 ClearMed AI
+# ClearMed AI
 
-> **Translate complex clinical language into plain English — instantly.**
+ClearMed AI is a medical report simplification application that turns complex clinical text into clearer, plain-English explanations. It combines a FastAPI backend and a React/Vite frontend with a retrieval-augmented generation (RAG) pipeline to provide context-aware simplifications for medical notes, discharge summaries, and uploaded reports.
 
-ClearMed AI is an AI-powered medical report simplification application that converts complex clinical text into patient-friendly explanations. It combines a **FastAPI backend**, a **Streamlit frontend**, and a **Retrieval-Augmented Generation (RAG)** pipeline to generate context-aware, easy-to-understand summaries of medical notes, discharge summaries, and uploaded reports.
+## What it does
 
----
+- Simplifies clinical text entered directly by the user.
+- Processes uploaded medical reports (PDF/JPG/PNG) through OCR and simplification.
+- Uses retrieval-augmented generation to ground explanations in relevant medical context.
+- Provides readability metrics before and after simplification.
+- Includes an evaluation dashboard and benchmark workflow for measuring quality.
 
-## ✨ Features
-
-- 📝 Simplifies complex medical text into plain English
-- 📄 Supports PDF, JPG, and PNG medical report uploads
-- 🔍 OCR extraction for scanned medical reports
-- 🧠 Retrieval-Augmented Generation (RAG) using Pinecone
-- 🏥 Biomedical Named Entity Recognition (NER)
-- 📊 Readability analysis (before vs. after simplification)
-- 📈 Built-in evaluation dashboard
-- 📚 Benchmarking using ROUGE-L, BERTScore, and readability metrics, against a **physician-reviewed golden set**
-
----
-
-## 🏗️ Architecture
-
-```
-                    User
-                     │
-                     ▼
-             Streamlit Frontend
-                     │
-                     ▼
-              FastAPI Backend
-                     │
-      ┌──────────────┼──────────────┐
-      ▼              ▼              ▼
- Hugging Face     Pinecone       Supabase
-(LLM + Embeddings   (RAG          (Logging)
-    + NER)         retrieval)
-```
-
----
-
-## 📂 Project Structure
+## Project structure
 
 ```text
 backend/
-├── app/
-│   ├── config.py
-│   ├── main.py
-│   ├── models.py
-│   ├── db/
-│   ├── pipeline/
-│   ├── prompts/
-│   └── rag/
-├── requirements.txt
-├── requirements-ingest.txt
-└── Dockerfile
-
+  app/
+    config.py
+    main.py
+    models.py
+    db/
+    pipeline/
+    prompts/
+    rag/
 frontend/
-├── app.py
-└── requirements.txt
-
+  react/
+    index.html
+    package.json
+    src/
+    vite.config.js
 scripts/
-└── ingest_corpus.py
-
+  ingest_corpus.py
 eval/
-├── evaluate.py
-├── golden_set.json
-└── results.json
-
-.github/
-.env.example
-.gitignore
-README.md
+  evaluate.py
+  golden_set.json
+  results.json
 ```
 
----
+## Architecture overview
 
-## ⚙️ Tech Stack
+- Backend: FastAPI service exposing `/health`, `/simplify`, and `/simplify-report` endpoints.
+- Frontend: React + Vite app in `frontend/react` for report upload, text simplification, and dashboard viewing.
+- RAG layer: retrieves relevant chunks and passes them into the model prompt.
 
-**Backend**
-- FastAPI
-- Python
-- Hugging Face Inference API
-- Pinecone
-- Supabase
+## Prerequisites
 
-**Frontend**
-- Streamlit
-- Altair
-- Pandas
+- Python 3.10+
+- Node.js and npm
+- A Google Gemini API key
+- A Pinecone API key and index name; retrieval is used for every simplification request.
+- Tesseract OCR installed and available on `PATH` for image uploads and scanned PDFs. On Windows, set the `TESSERACT_CMD` environment variable if Tesseract is installed outside the standard locations.
+- Optional: Supabase URL and key for request logging. Logging failures do not prevent simplification.
 
-**AI Pipeline**
-- Llama 3.1 8B Instruct
-- all-MiniLM-L6-v2 embeddings
-- Retrieval-Augmented Generation (RAG)
+## Environment setup
 
-**Evaluation**
-- ROUGE-L
-- BERTScore
-- Flesch Reading Ease
+1. Copy [.env.example](.env.example) to `.env` in the repository root.
+2. Set `GEMINI_API_KEY`, `PINECONE_API_KEY`, and `PINECONE_INDEX_NAME`.
+3. Set `SUPABASE_URL` and `SUPABASE_KEY` only if request logging is desired.
 
----
+The React app defaults to `http://localhost:8000` for its API. To use another backend URL, set `VITE_API_URL` in `frontend/react/.env.local`.
 
-## 🚀 Getting Started
+## Local development
 
-### Prerequisites
+### Install dependencies
 
-- Python 3.11+
-- Hugging Face API token
-- Pinecone API key
-- Supabase project
-- Tesseract OCR (for scanned report support)
+Run these commands from the repository root. Activate the virtual environment in each new terminal before starting the backend.
 
-### Environment Variables
-
-Copy `.env.example` to `.env` and fill in your own values:
-
-```bash
-cp .env.example .env
-```
-
-```env
-HF_TOKEN=
-PINECONE_API_KEY=
-PINECONE_INDEX_NAME=
-SUPABASE_URL=
-SUPABASE_KEY=
-BACKEND_URL=http://localhost:8000
-```
-
-Never commit `.env` — it's excluded via `.gitignore`. `.env.example` is the template that ships with the repo.
-
----
-
-## 💻 Local Setup
-
-**Create a virtual environment**
-
-```bash
+```powershell
 python -m venv .venv
+\.venv\Scripts\Activate.ps1
+python -m pip install -r backend/requirements.txt
+npm --prefix frontend/react install
 ```
 
-Windows:
-```bash
-.venv\Scripts\activate
+On macOS or Linux, activate it with `source .venv/bin/activate` instead.
+
+### Start the backend
+
+```powershell
+Set-Location backend
+python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Linux/Mac:
-```bash
-source .venv/bin/activate
+### Start the frontend
+
+In a second terminal, run from the repository root:
+
+```powershell
+npm --prefix frontend/react run dev -- --host 0.0.0.0
 ```
 
-**Install dependencies**
+Open `http://localhost:5173`. The backend health endpoint is `http://localhost:8000/health`.
+
+## Optional data ingestion
+
+The one-time corpus loader downloads PubMedQA using the Hugging Face `datasets` package; model generation and embeddings use Gemini, not Hugging Face Inference APIs. Ingestion makes Gemini embedding requests and writes to the `gemini-embedding-001-v1` Pinecone namespace. To rebuild that corpus, install both dependency sets and run:
 
 ```bash
-pip install -r backend/requirements.txt
-pip install -r frontend/requirements.txt
-```
-
-**Start the backend**
-
-```bash
-cd backend
-uvicorn app.main:app --reload
-```
-
-**Start the frontend** (in a separate terminal)
-
-```bash
-streamlit run frontend/app.py
-```
-
----
-
-## 📄 OCR Support
-
-Supported upload formats:
-- PDF
-- JPG / JPEG
-- PNG
-
-Scanned reports are automatically run through OCR before simplification.
-
----
-
-## 📚 Corpus Ingestion (Optional)
-
-To rebuild or expand the RAG retrieval corpus:
-
-```bash
-pip install -r backend/requirements-ingest.txt
+pip install -r backend/requirements.txt -r backend/requirements-ingest.txt
 python scripts/ingest_corpus.py 500
 ```
 
----
+The count argument is the number of abstracts to ingest. Gemini quota limits may require waiting between embedding batches.
 
-## 📈 Evaluation
+## Evaluation
 
-ClearMed AI includes an evaluation dashboard that compares generated simplifications against a **golden set of clinician-reviewed reference simplifications**, scored on semantic similarity, lexical overlap, and readability.
-
-### Golden Set Verification
-
-The golden set (`eval/golden_set.json`) pairs complex clinical text with a plain-English reference simplification. To keep this a meaningful benchmark rather than a purely automated one:
-
-- Reference simplifications are **reviewed by a licensed medical practitioner** before being added to the set, checking each one for clinical accuracy, no omitted safety-relevant information (e.g. dosages, urgency, follow-up instructions), and no added information not supported by the source text.
-- Entries are revised or rejected if the reviewer flags an inaccuracy, ambiguity, or unsafe simplification.
-- The golden set is treated as a living benchmark — new cases are added as edge cases are discovered (e.g. negations, multiple concurrent findings, ambiguous abbreviations), and re-reviewed when the reference wording changes.
-
-This review step exists specifically to prevent the evaluation from validating the model against its own kind of writing. ROUGE-L and BERTScore measure similarity to the reference; the clinician review is what gives that reference — and therefore the resulting scores — clinical meaning.
-
-**Note:** Automatic metrics (ROUGE-L, BERTScore) measure textual and semantic similarity to the reference, not clinical correctness on arbitrary input. They're a regression check for the fixed benchmark, not a guarantee of accuracy on real-world reports outside the golden set.
-
-### Running the Evaluation
+To run the evaluation suite:
 
 ```bash
+pip install -r eval/requirements.txt
 python eval/evaluate.py
 ```
 
-Options:
-```bash
-python eval/evaluate.py --resume            # reuse prior successful runs, retry the rest
-python eval/evaluate.py --recompute-bert     # recompute BERTScore without rerunning /simplify
-```
+Results are written to [eval/results.json](eval/results.json).
 
-### Current Results
+## Notes
 
-| Metric | Mean | Median | Range |
-|---|---|---|---|
-| Cases evaluated | 50 | — | — |
-| ROUGE-L | 0.106 | 0.101 | 0.046 – 0.187 |
-| BERTScore F1 | 0.690 | 0.689 | 0.598 – 0.752 |
-| Readability gain (Flesch reading ease) | +47.3 | +39.5 | +8.9 – +136.5 |
-
-Low ROUGE-L is expected for good simplifications — plain-English paraphrases naturally use different words than the clinical original, so lexical overlap is not the primary quality signal. BERTScore (semantic similarity) and the per-case inspection view in the dashboard are more informative for judging output quality.
-
-The dashboard also provides:
-- 📈 Readability improvement scatter plot (original vs. simplified reading ease)
-- 📊 Readability gain distribution across cases
-- 🔍 Semantic vs. lexical similarity comparison
-- 📋 Sortable per-case benchmark results
-- 📖 Generated answer vs. reference inspection for individual cases
-
----
-
-## 🔮 Future Improvements
-
-- Entity-level fact-preservation checks (diffing NER output between source and simplified text, to catch hallucinated or dropped clinical details)
-- Medical chatbot interface
-- Multi-language simplification
-- Clinical report summarization
-- Expanded, more diverse RAG corpus
-- Better OCR for handwritten reports
-- Explainability via cited medical sources
-
----
-
-## ⚠️ Disclaimer
-
-> **ClearMed AI is intended for educational and informational purposes only. AI-generated explanations may be inaccurate, incomplete, or outdated. This application is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional before making medical decisions. Do not rely on this tool for emergencies or urgent medical situations.**
-
----
-
-## 📜 License
-
-This project is licensed under the Apache 2.0 License.
+This tool is intended for educational and informational purposes only. It should not be used as a substitute for professional medical advice, emergency guidance, or diagnosis.
